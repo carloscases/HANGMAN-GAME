@@ -1,0 +1,612 @@
+/*
+ ===================HANGMAN====================
+**LBYEC71 project, Cases, Carlos & Arat, Jeamron**
+Descriptiom: This a classic Hangman game that can be played as 1 player or 2 player game. 
+
+Learnings:   More nested loops
+             ASCII art
+             Random function
+             Sleep function
+             Strings
+             Color
+*/
+
+
+
+
+
+#include<iostream>
+#include<cstring>
+#include<stdlib.h>
+#include<stdio.h>
+#include<windows.h> // for sleep
+
+
+int  wrong, correct,j;
+
+void intro();
+void gametype();
+
+void main1();     //S    P
+void car();       //I    L
+void fish();      //N    A
+void capital();   //G    Y
+void instrument();//L    E
+void champion();  //E    R
+
+void main2();     //2 Player
+void Hangman();	
+void playagain(); //rematch 
+
+void hangswitch(); // G
+void sixLives();   // R
+void fiveLives();  // A
+void fourLives();  // P 
+void threeLives(); // H   
+void twoLives();   // I   
+void oneLife();    // C 
+void zeroLives();  // S
+
+using namespace std;
+
+void Hangman(string word){ 
+    
+    
+	string display= word;
+    for(int i=0; i< display.length(); i++)
+    	display[i] = '*'; //displays asterisks per letter in the word
+    correct = 0;
+	wrong = 0;
+	j=0;
+    	
+    while (correct < word.length()) { //whilestart
+    	char stored[26];
+    	cout << "Mistakes:" << wrong << ": ";// Checks the number of mistakes.
+    	cout <<	"Enter your guess ---> ";
+    	cout << display << " : ";
+    	char letter;
+    	cin >> letter;
+    	system("CLS");
+    	
+    	bool guess = false;
+    	bool again = false;
+    	bool wrongagain= false;
+    	
+    	for(int i=0 ; i<word.length(); i++)
+    		if (letter == word[i]){
+    			if (display[i] == word[i]){
+    				cout << letter << " has already been guessed\n"; //duplicate input
+    				again = true;
+    				break;
+    			} else {
+    			display[i] = word[i];
+    			correct++;
+    			guess = true;
+    			}    				
+    		}
+    	if (again){ // For duplicate input of a letter.
+           hangswitch(); //GRAPHICS	
+    	if (wrong<6)
+    	
+    		
+			continue;	
+        }
+    	if (!guess){
+    		for (int i=0; i<26; i++){
+    			if(letter == stored[i]){
+    				wrongagain = true;
+    			}
+			}
+    		stored [j]= letter;
+			j++;
+    			// For duplicate input of a letter.
+    			if (!wrongagain){
+    				wrong++;
+    				cout << letter << " is incorrect.\n";			
+    			}				
+    			else
+					cout << letter << " has already been guessed\n";							
+			
+		}
+
+    	hangswitch(); //GRAPHICS	
+    	if (wrong<6)
+    	
+    		continue;
+    	else 
+    	cout << "Sorry, you were not able to guess the word. ";
+		break;	
+    }//endwhile	
+    
+    if (correct == word.length()){
+    	cout << "You won! ";
+    }
+    	cout << "The word was " << word << "." << endl;
+}
+
+
+int main(){
+    intro(); 
+	gametype();  
+
+}
+
+void main1(){ //1 player game
+	   char input[50]={0};
+	   printf("You chose a single - player game:\n");
+	   printf("\n Main Menu: Choose a category");
+       printf("\n================");
+       printf("\n A - Car Brands");
+       printf("\n B - Aquatic Animals");
+       printf("\n C - Capitals of the World");
+       printf("\n D - Musical Instruments");
+       printf("\n E - LoL Champions");
+       printf("\n Enter a category: ");
+       char category; 
+       scanf("%c", &category);
+	    
+	switch (category)
+          {
+          case 'A':
+          case 'a':
+               car();
+               break;
+          case 'B':
+          case 'b':	
+               fish();
+               break;
+          case 'C':
+          case 'c':
+               capital();
+               break;
+          case 'D':
+          case 'd':
+               instrument();
+               break;
+          case 'E':
+          case 'e':
+               champion();
+               break;
+          default: 
+          	   printf("\n Invalid selection.\n");
+          	   main1();
+        	   break; //End default 
+       	  }//endswitch   	  
+}
+
+void car(){
+	system("CLS");
+	printf("You chose Car Brands category!\n Remember, all of your guesses should be in lowercase: Good luck!\n");
+	srand ( time(NULL) ); //initialize the random seed
+	string carArray[10] = {"nissan", "isuzu", "lamborghini", "chevrolet", "ferrari", "ford", "honda", "hyundai", "kia", "mitsubishi"};
+	int RandIndex = rand() % 10; //randomizer
+	string input = carArray[RandIndex];
+	Hangman(input);
+    getchar();
+    playagain();
+}
+void fish(){
+	system("CLS");
+	printf("You chose Aquatic Animals category!\nRemember, all of your guesses should be in lowercase: Good luck!\n");
+	srand ( time(NULL) ); //initialize the random seed
+	string fishArray[10] = {"shark", "whale", "squid", "octopus,", "jellyfish", "mackerel", "quillfish", "starfish", "swordfish", "herring" };
+	int RandIndex = rand() % 10; //randomizer
+	string input = fishArray[RandIndex];
+	Hangman(input);
+    getchar();
+    playagain();
+}
+void capital(){
+	system("CLS");
+	printf("You chose Capitals of the World category!\nRemember, all of your guesses should be in lowercase: Good luck!\n");
+	srand ( time(NULL) ); //initialize the random seed
+	string capitalArray[10] = {"bangkok", "manila", "beijing", "berlin", "cairo", "jakarta", "london", "brasilia", "wellington", "pyongyang"};
+	int RandIndex = rand() % 10; //randomizer
+	string input = capitalArray[RandIndex];	
+	Hangman(input);
+    getchar();
+    playagain();
+}
+void instrument(){
+	system("CLS");
+	printf("You chose Musical Instruments category!\nRemember, all of your guesses should be in lowercase: Good luck!\n");
+	srand ( time(NULL) ); //initialize the random seed
+	string instrumentArray[10] = {"guitar", "piano", "flute", "drums", "harmonica", "xylophone", "bagpipe", "trumpet", "violin", "ukulele"};
+	int RandIndex = rand() % 10; //randomizer 
+	string input = instrumentArray[RandIndex];
+	Hangman(input);
+    getchar();
+    playagain();
+}
+void champion(){
+	system("CLS");
+	printf("You chose LoL Champions category!\nRemember, all of your guesses should be in lowercase: Good luck!\n");
+	srand ( time(NULL) ); //initialize the random seed
+	string championArray[10] = {"gangplank", "blitzcrank", "xerath", "evelynn", "karthus", "heimerdinger", "nautilus", "tryndamere", "caitlyn", "mordekaiser"};
+	int RandIndex = rand() % 10; //randomizer
+	string input = championArray[RandIndex];
+	Hangman(input);
+    getchar();
+    playagain();
+}
+
+
+void main2(){ // 2 player game
+	
+	char input[50]={0};
+	printf("You chose a two - player game:\n");
+	printf("Write a word. (Strictly lowercase and no spaces): ");
+    scanf("%s", &input);
+    system("CLS");
+    system("COLOR 06");
+    
+    Hangman(input);
+    getchar();
+    playagain();    	  
+}
+
+void gametype(){ //selecting 1 or 2 player
+	cout <<"Would you like to play a [A]single player or [B]two-player game?" << endl; 
+    char gamechoice;
+    cin >> gamechoice;
+    switch (gamechoice)
+    	{
+		case 'A':
+		case 'a':
+			getchar();
+			system("cls");
+			main1();
+			break;
+		case 'B':
+		case 'b':
+			getchar();
+			system("cls");
+			main2();
+			break;
+		default: 
+		
+         printf("\n Invalid selection.\n");
+         getchar();
+         gametype();
+         break; //End default 	
+    	
+    	}// endswitch
+}
+
+void playagain(){ // rematch
+	cout << "Would you like to play again? (y/n):";  
+    	char rematch;
+    	cin >> rematch;
+    while(rematch != 'n' && rematch !='N'){
+    	switch (rematch)
+    	{
+		case 'y':
+		case 'Y':
+            getchar();
+            system("cls");
+            system("COLOR 02");	
+		    gametype();
+		    break;
+		default: 
+         printf("\n Invalid selection.\n");
+         playagain();
+         break; //End default 	
+    	
+    	}// endswitch
+    	getchar();
+    	if (rematch == 'n' && rematch == 'N');
+    		break;
+    }//endwhile
+}
+
+//GRAPHICS FROM HERE ONWARDS//
+void hangswitch(){ 
+     switch (wrong)
+          {
+          case 0:
+               sixLives();
+               break;
+          case 1:
+               fiveLives();
+               break;
+          case 2:
+               fourLives();
+               break;
+          case 3:
+               threeLives();
+               break;
+          case 4:
+               twoLives();
+               break;
+          case 5:
+               oneLife();
+               break;
+          case 6:
+               zeroLives();
+               break;     
+          
+               } //endswitch
+     
+     }
+void sixLives(){
+     printf(" ___________.._______\n");
+     printf("| .__________))______|\n");
+     printf("| | / /      ||\n");
+     printf("| |/ /       ||\n");
+     printf("| | /        ||\n");
+     printf("| |/       //''\\\\\n");
+     printf("| |        ||   ||\n");
+     printf("| |        \\\\..//\n");
+     printf("| |\n");
+     printf("| |\n");
+     printf("| |\n");
+     printf("| |\n");
+     printf("| |\n");
+     printf("| |\n");
+     printf("| |\n");
+     printf("| |\n");
+     printf("| |\n");
+     printf("| |\n");
+     printf("| |\n");
+     printf("| |\n");
+     
+     }
+     
+     
+void fiveLives(){
+     printf(" ___________.._______\n");
+     printf("| .__________))______|\n");
+     printf("| | / /      ||\n");
+     printf("| |/ /       ||\n");
+     printf("| | /        ||.-''.\n");
+     printf("| |/         |/  _  \\\n");
+     printf("| |          ||  `/,|\n");
+     printf("| |          (\\\\`_.'\n");
+     printf("| |\n");
+     printf("| |\n");
+     printf("| |\n");
+     printf("| |\n");
+     printf("| |\n");
+     printf("| |\n");
+     printf("| |\n");
+     printf("| |\n");
+     printf("| |\n");
+     printf("| |\n");
+     printf("| |\n");
+     printf("| |\n");
+     
+     
+     
+     
+     }
+     
+void fourLives(){
+     printf(" ___________.._______\n");
+     printf("| .__________))______|\n");
+     printf("| | / /      ||\n");
+     printf("| |/ /       ||\n");
+     printf("| | /        ||.-''.\n");
+     printf("| |/         |/  _  \\\n");
+     printf("| |          ||  `/,|\n");
+     printf("| |          (\\\\`_.'\n");
+     printf("| |         .-`--'.\n");
+     printf("| |         Y . . Y \n");
+     printf("| |          |   |   \n");
+     printf("| |          | . |    \n");
+     printf("| |          |   |     \n");
+     printf("| |\n");
+     printf("| |\n");
+     printf("| |\n");
+     printf("| |\n");
+     printf("| |\n");
+     printf("| |\n");
+     printf("| |\n");
+     
+     
+     
+     
+     }
+     
+void threeLives(){
+      printf(" ___________.._______\n");
+     printf("| .__________))______|\n");
+     printf("| | / /      ||\n");
+     printf("| |/ /       ||\n");
+     printf("| | /        ||.-''.\n");
+     printf("| |/         |/  _  \\\n");
+     printf("| |          ||  `/,|\n");
+     printf("| |          (\\\\`_.'\n");
+     printf("| |         .-`--'.\n");
+     printf("| |         Y . . Y\\\n");
+     printf("| |          |   | \\\\\n");
+     printf("| |          | . |  \\\\\n");
+     printf("| |          |   |   (`\n");
+     printf("| |\n");
+     printf("| |\n");
+     printf("| |\n");
+     printf("| |\n");
+     printf("| |\n");
+     printf("| |\n");
+     printf("| |\n");
+     
+     
+     
+     
+     
+     }
+     
+void twoLives(){
+     printf(" ___________.._______\n");
+     printf("| .__________))______|\n");
+     printf("| | / /      ||\n");
+     printf("| |/ /       ||\n");
+     printf("| | /        ||.-''.\n");
+     printf("| |/         |/  _  \\\n");
+     printf("| |          ||  `/,|\n");
+     printf("| |          (\\\\`_.'\n");
+     printf("| |         .-`--'.\n");
+     printf("| |        /Y . . Y\\\n");
+     printf("| |       // |   | \\\\\n");
+     printf("| |      //  | . |  \\\\\n");
+     printf("| |     ')   |   |   (`\n");
+     printf("| |\n");
+     printf("| |\n");
+     printf("| |\n");
+     printf("| |\n");
+     printf("| |\n");
+     printf("| |\n");
+     printf("| |\n");
+     
+     
+     
+     }
+     
+void oneLife(){
+      printf(" ___________.._______\n");
+     printf("| .__________))______|\n");
+     printf("| | / /      ||\n");
+     printf("| |/ /       ||\n");
+     printf("| | /        ||.-''.\n");
+     printf("| |/         |/  _  \\\n");
+     printf("| |          ||  `/,|\n");
+     printf("| |          (\\\\`_.'\n");
+     printf("| |         .-`--'.\n");
+     printf("| |        /Y . . Y\\\n");
+     printf("| |       // |   | \\\\\n");
+     printf("| |      //  | . |  \\\\\n");
+     printf("| |     ')   |   |   (`\n");
+     printf("| |             ||\n");
+     printf("| |             ||\n");
+     printf("| |             ||\n");
+     printf("| |             ||\n");
+     printf("| |             | \\\n");
+     
+     
+     
+     
+     
+     }
+     
+void zeroLives(){
+     printf(" ___________.._______\n");
+     printf("| .__________))______|\n");
+     printf("| | / /      ||\n");
+     printf("| |/ /       ||\n");
+     printf("| | /        ||.-''.\n");
+     printf("| |/         |/  _  \\\n");
+     printf("| |          ||  `/,|\n");
+     printf("| |          (\\\\`_.'\n");
+     printf("| |         .-`--'.\n");
+     printf("| |        /Y . . Y\\\n");
+     printf("| |       // |   | \\\\\n");
+     printf("| |      //  | . |  \\\\\n");
+     printf("| |     ')   |   |   (`\n");
+     printf("| |          ||'||\n");
+     printf("| |          || ||\n");
+     printf("| |          || ||\n");
+     printf("| |          || ||\n");
+     printf("| |         / | | \\\n");
+     }
+
+
+
+void intro(){
+     printf("\t __   __ \n");
+     printf("\t|  | |  |\n");
+     printf("\t|  |_|  |\n");
+     printf("\t|       |\n");
+     printf("\t|       |\n");
+     printf("\t|   _   |\n");
+     printf("\t|__| |__|\n");
+     
+     
+     Sleep(200);
+     system("cls");
+     system("COLOR 06");
+
+     printf("\t __   __  _______ \n");
+     printf("\t|  | |  ||   _   |\n");
+     printf("\t|  |_|  ||  |_|  |\n");
+     printf("\t|       ||       |\n");
+     printf("\t|       ||       |\n");
+     printf("\t|   _   ||   _   |\n");
+     printf("\t|__| |__||__| |__|\n");
+     
+     Sleep(200);
+     system("cls");
+     system("COLOR 05");
+
+     printf("\t __   __  _______  __    _ \n");
+     printf("\t|  | |  ||   _   ||  |  | |\n");
+     printf("\t|  |_|  ||  |_|  ||   |_| |\n");
+     printf("\t|       ||       ||       |\n");
+     printf("\t|       ||       ||  _    |\n");
+     printf("\t|   _   ||   _   || | |   |\n");
+     printf("\t|__| |__||__| |__||_|  |__|\n");
+     
+     Sleep(200);
+     system("cls");
+     system("COLOR 04");
+
+     printf("\t__   __  _______  __    _  _______ \n");
+     printf("\t|  | |  ||   _   ||  |  | ||       |\n");
+     printf("\t|  |_|  ||  |_|  ||   |_| ||    ___|\n");
+     printf("\t|       ||       ||       ||   | __ \n");
+     printf("\t|       ||       ||  _    ||   ||  |\n");
+     printf("\t|   _   ||   _   || | |   ||   |_| |\n");
+     printf("\t|__| |__||__| |__||_|  |__||_______|\n");
+
+     Sleep(200);
+     system("cls");
+     system("COLOR 03");
+
+     printf("\t __   __  _______  __    _  _______  __   __ \n");
+     printf("\t|  | |  ||   _   ||  |  | ||       ||  |_|  |\n");
+     printf("\t|  |_|  ||  |_|  ||   |_| ||    ___||       |\n");
+     printf("\t|       ||       ||       ||   | __ |       |\n");
+     printf("\t|       ||       ||  _    ||   ||  ||       |\n");
+     printf("\t|   _   ||   _   || | |   ||   |_| || ||_|| |\n");
+     printf("\t|__| |__||__| |__||_|  |__||_______||_|   |_|\n");
+
+
+Sleep(200);
+     system("cls");
+     system("COLOR 01");
+
+     printf("\t __   __  _______  __    _  _______  __   __  _______  \n");
+     printf("\t|  | |  ||   _   ||  |  | ||       ||  |_|  ||   _   |\n");
+     printf("\t|  |_|  ||  |_|  ||   |_| ||    ___||       ||  |_|  |\n");
+     printf("\t|       ||       ||       ||   | __ |       ||       |\n");
+     printf("\t|       ||       ||  _    ||   ||  ||       ||       |\n");
+     printf("\t|   _   ||   _   || | |   ||   |_| || ||_|| ||   _   |\n");
+     printf("\t|__| |__||__| |__||_|  |__||_______||_|   |_||__| |__|\n");
+     
+     
+     
+     Sleep(200);
+     system("cls");
+     system("COLOR 02");
+
+     printf("\t __   __  _______  __    _  _______  __   __  _______  __    _ \n");
+     printf("\t|  | |  ||   _   ||  |  | ||       ||  |_|  ||   _   ||  |  | |\n");
+     printf("\t|  |_|  ||  |_|  ||   |_| ||    ___||       ||  |_|  ||   |_| |\n");
+     printf("\t|       ||       ||       ||   | __ |       ||       ||       |\n");
+     printf("\t|       ||       ||  _    ||   ||  ||       ||       ||  _    |\n");
+     printf("\t|   _   ||   _   || | |   ||   |_| || ||_|| ||   _   || | |   |\n");
+     printf("\t|__| |__||__| |__||_|  |__||_______||_|   |_||__| |__||_|  |__|\n");
+     
+     
+     Sleep(200);
+     
+     
+     printf("\n\n\nLBYEC71 project by Arat and Cases.\n\n\n");
+     
+     system("PAUSE");
+     system("cls");
+     
+     
+     
+     }
+     
+     
+     
